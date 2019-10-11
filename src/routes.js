@@ -1,4 +1,4 @@
-import Home from './components/Home.vue';
+import Home from './views/User/List.vue';
 import Register from './components/Register.vue';
 import Login from './components/Login.vue';
 import VueRouter from 'vue-router'
@@ -32,12 +32,19 @@ const routes = [
 				}
 			},
 			{ 
-				path: '/login', 
+				path: '/', 
 				component: Login,
 				meta: { 
 					guest: true
 				}
 			},
+			{ 
+				path: '/login', 
+				component: Login,
+				meta: { 
+					guest: true
+				}
+			}
 		]
 	}
 ];
@@ -46,7 +53,7 @@ const router = new VueRouter({mode: 'history', routes});
 
 router.beforeEach((to, from, next) => {
 	if(to.matched.some(record => record.meta.requiresAuth)) {
-		if (localStorage.getItem('jwt') == null) {
+		if (localStorage.getItem('jwt') == 'null') {
 			next({
 				path: '/login',
 				params: { nextUrl: to.fullPath }
@@ -54,19 +61,13 @@ router.beforeEach((to, from, next) => {
 		} else {
 			let user = JSON.parse(localStorage.getItem('user'))
 			if(to.matched.some(record => record.meta.is_admin)) {
-				if(user.is_admin == 1){
-					next()
-				}
-				else{
-					next({ name: 'home'})
-				}
+				next({ name: 'home'})
 			}else {
 				next()
 			}
 		}
 	} else if(to.matched.some(record => record.meta.guest)) {
-		console.log(localStorage.getItem('jwt'));
-		if(localStorage.getItem('jwt') == null){
+		if(localStorage.getItem('jwt') == 'null'){
 			next()
 		}
 		else{

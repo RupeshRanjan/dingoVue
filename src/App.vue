@@ -6,5 +6,10 @@
 
 <script>
 export default {
+	methods : {
+		logout(){
+			localStorage.setItem('jwt',null)
+		}
+	}
 }
 </script>

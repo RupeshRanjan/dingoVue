@@ -6,6 +6,7 @@
 			dark
 		>
 			<v-toolbar-title>Application</v-toolbar-title>
+			<v-btn color="blue darken-1" text @click="logout">Logout</v-btn>
 		</v-app-bar>
 
 		<v-content>
@@ -40,5 +41,11 @@
 		data: () => ({
 			drawer: null,
 		}),
+		methods : {
+			logout(){
+				localStorage.setItem('jwt',null)
+				this.$router.push('login');
+			}
+		}
 	}
 </script>
